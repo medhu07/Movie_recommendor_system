@@ -3,9 +3,18 @@ import pandas as pd
 import requests
 import pickle
 import time
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 with open('movie_data.pkl', 'rb') as file:
     movies = pickle.load(file)
+    # Create TF-IDF matrix
+tfidf = TfidfVectorizer(stop_words='english')
+tfidf_matrix = tfidf.fit_transform(movies['tags'])
+
+# Create cosine similarity matrix
+cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
 def get_recommendations(title, cosine_sim=cosine_sim):
     idx = movies[movies['title'] == title].index[0]
     sim_scores = list(enumerate(cosine_sim[idx]))
