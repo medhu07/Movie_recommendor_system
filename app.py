@@ -4,9 +4,8 @@ import requests
 import pickle
 import time
 
-with open('C://Users//Medhansh//Codes//ml//movie_data.pkl', 'rb') as file:
-    movies, cosine_sim = pickle.load(file)
-
+with open('movie_data.pkl', 'rb') as file:
+    movies = pickle.load(file)
 def get_recommendations(title, cosine_sim=cosine_sim):
     idx = movies[movies['title'] == title].index[0]
     sim_scores = list(enumerate(cosine_sim[idx]))
